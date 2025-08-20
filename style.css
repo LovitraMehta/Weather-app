@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 350px;
+    text-align: center;
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+#city-input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.7);
+    outline: none;
+}
+
+/* ...existing code... */
+#search-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #74ebd5;
+    color: #333;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#search-btn:hover {
+    background: #ACB6E5;
+}
+
+.location-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #333;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(31,38,135,0.10);
+    transition: background 0.2s, color 0.2s;
+    letter-spacing: 0.5px;
+}
+.location-btn:hover {
+    background: #74ebd5;
+    color: #333;
+}
+
+.weather-card {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 16px;
+    padding: 25px 15px;
+    box-shadow: 0 4px 16px rgba(31,38,135,0.15);
+    transition: opacity 0.3s;
+}
+
+.weather-card.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.weather-icon {
+    width: 80px;
+    height: 80px;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.error-message.hidden {
+    display: none;
+}
