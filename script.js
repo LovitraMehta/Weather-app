@@ -1,93 +1,65 @@
-const apiKey = "3600bf2da9e96541b1d2d210793c9671"; // User's OpenWeatherMap API key
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather";
-
-const searchBtn = document.getElementById("search-btn");
-const locationBtn = document.getElementById("location-btn");
-const cityInput = document.getElementById("city-input");
-const weatherCard = document.getElementById("weather-card");
-const cityName = document.getElementById("city-name");
-const weatherDesc = document.getElementById("weather-desc");
-const temp = document.getElementById("temp");
-const humidity = document.getElementById("humidity");
-const wind = document.getElementById("wind");
-const weatherIcon = document.getElementById("weather-icon");
-const errorMessage = document.getElementById("error-message");
-
-function showError(message) {
-    errorMessage.textContent = message;
-    errorMessage.classList.remove("hidden");
-    weatherCard.classList.add("hidden");
-}
-
-function showWeather(data) {
-    cityName.textContent = `${data.name}, ${data.sys.country}`;
-    weatherDesc.textContent = data.weather[0].description;
-    temp.textContent = `🌡️ ${Math.round(data.main.temp - 273.15)}°C`;
-    humidity.textContent = `💧 Humidity: ${data.main.humidity}%`;
-    wind.textContent = `💨 Wind: ${data.wind.speed} m/s`;
-    weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
-    weatherIcon.alt = data.weather[0].main;
-    weatherCard.classList.remove("hidden");
-    errorMessage.classList.add("hidden");
-}
-
-function getWeatherByCoords(lat, lon) {
-    fetch(`${apiUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
-        .then(res => {
-            if (!res.ok) throw new Error("Location not found");
-            return res.json();
-        })
-        .then(data => {
-            showWeather(data);
-        })
-        .catch(err => {
-            showError("Could not fetch weather for your location.");
-        });
-}
-
-function getLocationWeather() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                getWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
-            },
-            () => {
-                showError("Location access denied.");
-            }
-        );
-    } else {
-        showError("Geolocation is not supported by your browser.");
-    }
-}
-
-searchBtn.addEventListener("click", () => {
-    const city = cityInput.value.trim();
-    if (!city) {
-        showError("Please enter a city name.");
-        return;
-    }
-    fetch(`${apiUrl}?q=${city}&appid=${apiKey}`)
-        .then(res => {
-            if (!res.ok) throw new Error("City not found");
-            return res.json();
-        })
-        .then(data => {
-            showWeather(data);
-        })
-        .catch(err => {
-            showError("Could not fetch weather for this city.");
-        });
-});
-
-cityInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        searchBtn.click();
-    }
-});
-
-if (locationBtn) {
-    locationBtn.addEventListener("click", getLocationWeather);
-}
-
-// Auto-fetch weather for user's location on page load
-window.addEventListener("DOMContentLoaded", getLocationWeather);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Update</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Weather Update</h1>
+        <div class="search-box">
+            <input type="text" id="city-input" placeholder="Enter city name...">
+            <button id="search-btn">Search</button>
+        </div>
+        <button id="location-btn" class="location-btn">Use My Location</button>
+        <div id="weather-card" class="weather-card hidden">
+            <h2 id="city-name"></h2>
+            <p id="weather-desc"></p>
+            <div class="weather-details-grid">
+                <div class="weather-detail">
+                    <span class="icon">🌡️</span>
+                    <span id="temp"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">🔥</span>
+                    <span id="feels-like"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">↕️</span>
+                    <span id="min-max"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">💧</span>
+                    <span id="humidity"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">🧭</span>
+                    <span id="pressure"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">👁️</span>
+                    <span id="visibility"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">💨</span>
+                    <span id="wind"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">🌅</span>
+                    <span id="sunrise"></span>
+                </div>
+                <div class="weather-detail">
+                    <span class="icon">🌇</span>
+                    <span id="sunset"></span>
+                </div>
+            </div>
+            <img id="weather-icon" src="" alt="Weather Icon" class="weather-icon">
+        </div>
+        <div id="error-message" class="error-message hidden"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
